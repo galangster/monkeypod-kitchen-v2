@@ -1,43 +1,39 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { ReactLenis, useLenis } from '@studio-freight/lenis-react'
+import { useEffect, useRef } from 'react'
+import Lenis from 'lenis'
 
 interface SmoothScrollProps {
   children: React.ReactNode
 }
 
 export function SmoothScroll({ children }: SmoothScrollProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  
-  const lenis = useLenis(({ scroll }) => {
-    // Optional: track scroll progress
-    // console.log(scroll)
-  })
+  const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Wait for loader animation
-    const timer = setTimeout(() => {
-      setIsLoaded(true)
-    }, 2500)
-    
-    return () => clearTimeout(timer)
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    })
+
+    lenisRef.current = lenis
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
   }, [])
 
-  return (
-    <ReactLenis
-      root
-      options={{
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-      }}
-    >
-      {children}
-    </ReactLenis>
-  )
+  return <>{children}</>
 }

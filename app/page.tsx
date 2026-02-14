@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { TreeLoader } from './components/TreeLoader'
 import { Navigation } from './components/Navigation'
 import { Hero } from './sections/Hero'
@@ -14,7 +15,6 @@ import { Footer } from './sections/Footer'
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
-  // Prevent scroll during loading
   useEffect(() => {
     if (isLoading) {
       document.body.style.overflow = 'hidden'
@@ -28,14 +28,12 @@ export default function Home() {
 
   return (
     <>
-      {/* Tree Loader */}
       <AnimatePresence>
         {isLoading && (
           <TreeLoader onComplete={() => setIsLoading(false)} />
         )}
       </AnimatePresence>
       
-      {/* Main Content */}
       <motion.div 
         className={`transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         initial={false}
@@ -54,6 +52,3 @@ export default function Home() {
     </>
   )
 }
-
-// Need to import AnimatePresence
-import { AnimatePresence, motion } from 'framer-motion'

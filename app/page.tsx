@@ -6,6 +6,7 @@ import { Navigation } from './components/Navigation'
 import { Hero } from './sections/Hero'
 import { Ritual } from './sections/Ritual'
 import { Land } from './sections/Land'
+import { DayCarousel } from './sections/DayCarousel'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -24,6 +25,7 @@ export default function Home() {
           <Hero />
           <Ritual />
           <Land />
+          <DayCarousel />
           
           {/* Placeholder for remaining sections */}
           <section id="day" className="min-h-screen bg-monkeypod-green flex items-center justify-center">

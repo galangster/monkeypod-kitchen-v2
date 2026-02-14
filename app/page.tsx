@@ -7,40 +7,53 @@ import { Hero } from './sections/Hero'
 import { Ritual } from './sections/Ritual'
 import { Land } from './sections/Land'
 import { DayCarousel } from './sections/DayCarousel'
+import { Locations } from './sections/Locations'
+import { Reservations } from './sections/Reservations'
+import { Footer } from './sections/Footer'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
+  // Prevent scroll during loading
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isLoading])
+
   return (
     <>
       {/* Tree Loader */}
-      {isLoading && (
-        <TreeLoader onComplete={() => setIsLoading(false)} />
-      )}
+      <AnimatePresence>
+        {isLoading && (
+          <TreeLoader onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
       
       {/* Main Content */}
-      <div className={`transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <motion.div 
+        className={`transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        initial={false}
+      >
         <Navigation />
         <main>
           <Hero />
           <Ritual />
           <Land />
           <DayCarousel />
-          
-          {/* Placeholder for remaining sections */}
-          <section id="day" className="min-h-screen bg-monkeypod-green flex items-center justify-center">
-            <p className="font-display text-4xl text-white">The Day Unfolds (Time Carousel) Coming Soon...</p>
-          </section>
-          
-          <section id="locations" className="min-h-screen bg-monkeypod-cream flex items-center justify-center">
-            <p className="font-display text-4xl text-monkeypod-green">The Places (3D Cards) Coming Soon...</p>
-          </section>
-          
-          <section id="reservations" className="min-h-screen bg-sunset-deep flex items-center justify-center">
-            <p className="font-display text-4xl text-white">The Invitation (Booking) Coming Soon...</p>
-          </section>
+          <Locations />
+          <Reservations />
         </main>
-      </div>
+        <Footer />
+      </motion.div>
     </>
   )
 }
+
+// Need to import AnimatePresence
+import { AnimatePresence, motion } from 'framer-motion'

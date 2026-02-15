@@ -1,0 +1,38 @@
+[
+  {
+    "file": "app/sections/Ritual.tsx",
+    "issue": "Mai Tai image appears small and left-aligned",
+    "fix": "Increase image width to 60% and center content",
+    "severity": "medium"
+  },
+  {
+    "file": "app/sections/DayCarousel.tsx",
+    "issue": "Day carousel may not work well on mobile",
+    "fix": "Add swipe gestures or vertical scroll fallback for mobile",
+    "severity": "high"
+  },
+  {
+    "file": "app/sections/Locations.tsx",
+    "issue": "Location cards need hover effects",
+    "fix": "Add scale transform and shadow on hover",
+    "severity": "low"
+  },
+  {
+    "file": "app/sections/Hero.tsx",
+    "issue": "Video fallback image may not fill entire viewport",
+    "fix": "Ensure object-cover is applied correctly to hero background",
+    "severity": "medium"
+  },
+  {
+    "file": "app/sections/Ritual.tsx",
+    "issue": "Mai Tai image appears small and left-aligned",
+    "fix": "Increase image width to 60% and center content",
+    "severity": "medium"
+  },
+  {
+    "file": "app/sections/Locations.tsx",
+    "issue": "Location cards need hover effects",
+    "fix": "Add scale transform and shadow on hover",
+    "severity": "low"
+  }
+]

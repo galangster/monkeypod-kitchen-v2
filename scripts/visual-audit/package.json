@@ -1,0 +1,12 @@
+{
+  "name": "visual-audit",
+  "version": "1.0.0",
+  "description": "AI-powered visual website auditing",
+  "scripts": {
+    "audit": "node audit.js",
+    "record": "node record.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}

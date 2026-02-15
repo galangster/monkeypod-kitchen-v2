@@ -1,0 +1,95 @@
+{
+  "totalScreenshots": 12,
+  "totalIssues": 6,
+  "bySeverity": {
+    "high": 1,
+    "medium": 3,
+    "low": 2
+  },
+  "findings": [
+    {
+      "screenshot": "visual-audit-results/screenshots/mobile-ritual.png",
+      "viewport": "mobile",
+      "section": "Mai Tai Ritual",
+      "issues": [
+        {
+          "type": "layout",
+          "severity": "medium",
+          "issue": "Mai Tai image appears small and left-aligned",
+          "fix": "Increase image width to 60% and center content",
+          "file": "app/sections/Ritual.tsx"
+        }
+      ]
+    },
+    {
+      "screenshot": "visual-audit-results/screenshots/mobile-day.png",
+      "viewport": "mobile",
+      "section": "Day Carousel",
+      "issues": [
+        {
+          "type": "responsive",
+          "severity": "high",
+          "issue": "Day carousel may not work well on mobile",
+          "fix": "Add swipe gestures or vertical scroll fallback for mobile",
+          "file": "app/sections/DayCarousel.tsx"
+        }
+      ]
+    },
+    {
+      "screenshot": "visual-audit-results/screenshots/mobile-locations.png",
+      "viewport": "mobile",
+      "section": "Locations",
+      "issues": [
+        {
+          "type": "interaction",
+          "severity": "low",
+          "issue": "Location cards need hover effects",
+          "fix": "Add scale transform and shadow on hover",
+          "file": "app/sections/Locations.tsx"
+        }
+      ]
+    },
+    {
+      "screenshot": "visual-audit-results/screenshots/desktop-hero.png",
+      "viewport": "desktop",
+      "section": "Hero Section",
+      "issues": [
+        {
+          "type": "layout",
+          "severity": "medium",
+          "issue": "Video fallback image may not fill entire viewport",
+          "fix": "Ensure object-cover is applied correctly to hero background",
+          "file": "app/sections/Hero.tsx"
+        }
+      ]
+    },
+    {
+      "screenshot": "visual-audit-results/screenshots/desktop-ritual.png",
+      "viewport": "desktop",
+      "section": "Mai Tai Ritual",
+      "issues": [
+        {
+          "type": "layout",
+          "severity": "medium",
+          "issue": "Mai Tai image appears small and left-aligned",
+          "fix": "Increase image width to 60% and center content",
+          "file": "app/sections/Ritual.tsx"
+        }
+      ]
+    },
+    {
+      "screenshot": "visual-audit-results/screenshots/desktop-locations.png",
+      "viewport": "desktop",
+      "section": "Locations",
+      "issues": [
+        {
+          "type": "interaction",
+          "severity": "low",
+          "issue": "Location cards need hover effects",
+          "fix": "Add scale transform and shadow on hover",
+          "file": "app/sections/Locations.tsx"
+        }
+      ]
+    }
+  ]
+}

@@ -22,8 +22,8 @@ export function Ritual() {
       className="relative min-h-screen bg-monkeypod-cream overflow-hidden"
     >
       <div className="flex flex-col lg:flex-row min-h-screen">
-        {/* Left: Image/Video Side */}
-        <div className="lg:w-1/2 relative h-[50vh] lg:h-screen overflow-hidden">
+        {/* Left: Image/Video Side - Increased to 60% */}
+        <div className="lg:w-3/5 relative h-[50vh] lg:h-screen overflow-hidden">
           <motion.div 
             className="absolute inset-0"
             style={{ scale: imageScale }}
@@ -53,10 +53,10 @@ export function Ritual() {
           </div>
         </div>
 
-        {/* Right: Content Side */}
-        <div className="lg:w-1/2 flex items-center justify-center px-8 lg:px-16 py-16 lg:py-0">
+        {/* Right: Content Side - Now 40% with centered content */}
+        <div className="lg:w-2/5 flex items-center justify-center px-8 lg:px-12 py-16 lg:py-0">
           <motion.div
-            className="max-w-lg"
+            className="max-w-lg w-full text-center lg:text-left"
             style={{ y: textY, opacity: textOpacity }}
           >
             <motion.span
@@ -89,7 +89,7 @@ export function Ritual() {
             </motion.p>
 
             <motion.div
-              className="flex flex-wrap gap-4 mb-8"
+              className="flex flex-wrap gap-4 mb-8 justify-center lg:justify-start"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -106,7 +106,7 @@ export function Ritual() {
             </motion.div>
 
             <motion.div
-              className="flex items-center space-x-8 mb-8"
+              className="flex items-center justify-center lg:justify-start space-x-8 mb-8"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -123,7 +123,7 @@ export function Ritual() {
             </motion.div>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}

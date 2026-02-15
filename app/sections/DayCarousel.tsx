@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ChevronRight } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { motion, useMotionValue, useSpring, useTransform, PanInfo } from 'framer-motion'
+import { ChevronRight, ChevronLeft } from 'lucide-react'
 
 const timeSlots = [
   {
@@ -42,6 +43,30 @@ const timeSlots = [
 ]
 
 export function DayCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Handle swipe
+  const handleDragEnd = (event: any, info: PanInfo) => {
+    if (!isMobile) return
+    
+    const swipeThreshold = 50
+    if (info.offset.x < -swipeThreshold && currentIndex < timeSlots.length - 1) {
+      setCurrentIndex(currentIndex + 1)
+    } else if (info.offset.x > swipeThreshold && currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
+
   return (
     <section id="day" className="relative py-20 lg:py-28 bg-monkeypod-dark overflow-hidden">
       {/* Header */}
@@ -54,8 +79,82 @@ export function DayCarousel() {
         </h2>
       </div>
 
-      {/* Time Slots Grid */}
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      {/* Mobile: Swipeable Carousel */}
+      <div className="md:hidden">
+        <div className="relative overflow-hidden" ref={containerRef}>
+          <motion.div
+            className="flex"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={handleDragEnd}
+            animate={{ x: -currentIndex * 100 + '%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          >
+            {timeSlots.map((slot, index) => (
+              <div
+                key={slot.time}
+                className="w-full flex-shrink-0 px-6"
+              >
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-4">
+                  <img
+                    src={slot.image}
+                    alt={slot.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-monkeypod-dark/80 via-monkeypod-dark/20 to-transparent" />
+                  
+                  {/* Time badge */}
+                  <div 
+                    className="absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-bold"
+                    style={{ backgroundColor: `${slot.color}30`, color: slot.color }}
+                  >
+                    {slot.time}
+                  </div>
+                </div>
+                
+                <h3 className="font-display text-xl font-bold text-white mb-2">
+                  {slot.title}
+                </h3>
+                
+                <p className="text-white/70 text-sm mb-3">
+                  {slot.description}
+                </p>
+                
+                <a 
+                  href="#reservations" 
+                  className="inline-flex items-center gap-1 text-sm font-medium transition-colors"
+                  style={{ color: slot.color }}
+                >
+                  Reserve
+                  <ChevronRight className="w-4 h-4" />
+                </a>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        
+        {/* Mobile Navigation Dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {timeSlots.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentIndex ? 'bg-white w-6' : 'bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+        
+        {/* Swipe Hint */}
+        <p className="text-center text-white/40 text-xs mt-4">
+          Swipe to explore
+        </p>
+      </div>
+
+      {/* Desktop: Grid Layout */}
+      <div className="hidden md:block max-w-6xl mx-auto px-6 lg:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {timeSlots.map((slot, index) => (
             <motion.div

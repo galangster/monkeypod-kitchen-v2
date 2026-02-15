@@ -45,6 +45,7 @@ export function Locations() {
               whileHover={{ 
                 y: -20,
                 rotateY: index < 2 ? 5 : -5,
+                scale: 1.03,
                 transition: { duration: 0.3 }
               }}
               onClick={() => setSelectedLocation(location)}
@@ -52,7 +53,7 @@ export function Locations() {
                 transformStyle: 'preserve-3d',
               }}
             >
-              <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300"
+              <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:shadow-monkeypod-green/20"
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden"

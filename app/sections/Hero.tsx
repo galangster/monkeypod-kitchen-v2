@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react'
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [videoError, setVideoError] = useState(false)
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -17,7 +18,6 @@ export function Hero() {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1])
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100])
 
-  // Text animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -59,19 +59,31 @@ export function Hero() {
       className="relative h-screen w-full overflow-hidden"
       id="hero"
     >
-      {/* Video Background */}
+      {/* Background - Video with Image Fallback */}
       <motion.div 
         className="absolute inset-0 z-0"
         style={{ scale }}
       >
+        {/* Fallback Image (always rendered, hidden when video plays) */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-0' : 'opacity-100'}`}
+        >
+          <img
+            src="https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Hawaii sunset"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Video (renders on top when loaded) */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster="/images/hero-poster.jpg"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoadedData={() => setIsVideoLoaded(true)}
+          onError={() => setVideoError(true)}
         >
           <source 
             src="https://videos.pexels.com/video-files/5896379/5896379-hd_1920_1080_30fps.mp4" 
@@ -80,15 +92,7 @@ export function Hero() {
         </video>
         
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
-        
-        {/* Film grain overlay */}
-        <div 
-          className="absolute inset-0 opacity-20 mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
       </motion.div>
 
       {/* Content */}
@@ -102,7 +106,6 @@ export function Hero() {
           initial="hidden"
           animate="visible"
         >
-          {/* Animated text lines */}
           <motion.p
             className="font-display text-2xl md:text-4xl lg:text-5xl text-white mb-4"
             variants={lineVariants}
@@ -124,7 +127,6 @@ export function Hero() {
             and the evening begins
           </motion.p>
 
-          {/* CTA Button */}
           <motion.div
             className="mt-12"
             variants={lineVariants}
@@ -140,7 +142,6 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
         <motion.div
           className="absolute bottom-12 left-1/2 -translate-x-1/2"
           initial={{ opacity: 0, y: -20 }}

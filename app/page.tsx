@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TreeLoader } from './components/TreeLoader'
+import { TestimonialToast } from './components/TestimonialToast'
 import { Hero } from './sections/Hero'
 import { Locations } from './sections/Locations'
 import { Food } from './sections/Food'
@@ -35,6 +36,7 @@ export default function Home() {
         className={`transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         initial={false}
       >
+        <TestimonialToast />
         <main className="bg-[#F5F0E6]">
           <Hero />
           <Locations />

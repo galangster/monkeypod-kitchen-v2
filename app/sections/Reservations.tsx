@@ -1,162 +1,119 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Calendar, Clock, Users } from 'lucide-react'
-import { locations } from '@/lib/utils'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState } from 'react'
+
+const locations = ['Wailea', 'Ko Olina', 'Waikiki', 'Whalers Village']
 
 export function Reservations() {
-  const [formData, setFormData] = useState({
-    location: locations[0].id,
-    date: new Date().toISOString().split('T')[0],
-    time: '19:00',
-    partySize: '2',
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setIsSubmitting(false)
-    setIsSuccess(true)
-  }
-
-  const selectedLocation = locations.find(l => l.id === formData.location)
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" })
+  const [selectedLocation, setSelectedLocation] = useState('')
 
   return (
-    <section id="reservations" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img
-          src="https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg?auto=compress&cs=tinysrgb&w=1920"
-          alt="Evening ambiance"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-monkeypod-dark/70 via-monkeypod-dark/50 to-monkeypod-dark/70" />
-      </div>
+    <section ref={containerRef} className="py-24 md:py-32 bg-[#F5F0E6]">
+      <div className="max-w-4xl mx-auto px-6 md:px-12">
+        <motion.div
+          className="border-2 border-[#1A1A1A]/10 p-8 md:p-12 lg:p-16 relative"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Corner Decorations - Amici Style */}
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#4A7C59]" />
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#4A7C59]" />
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#4A7C59]" />
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#4A7C59]" />
 
-      <div className="relative z-10 w-full max-w-xl mx-auto px-8 py-24">
-        {!isSuccess ? (
-          <>
+          {/* Header */}
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <p className="text-sm tracking-[0.3em] text-[#4A7C59] mb-4">
+              BOOK YOUR TABLE
+            </p>            
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#1A1A1A] tracking-headline mb-2">
+              Aloha!
+            </h2>
+            
+            <p className="text-[#1A1A1A]/60 italic">
+              For all reservation inquiries
+            </p>
+          </motion.div>
+
+          {/* Steps - Amici Style */}
+          <div className="space-y-8 mb-12">
+            {/* Step 1 */}
             <motion.div
-              className="text-center text-white mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="flex gap-6 items-start"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <span className="text-white/60 text-sm tracking-widest uppercase">Join Us</span>
-              <h2 className="font-display text-5xl font-bold mt-2">Reserve Your Table</h2>
+              <span className="font-display text-4xl text-[#4A7C59]">01</span>
+              <div className="flex-1">
+                <h3 className="text-[#1A1A1A] text-lg tracking-wide mb-3">
+                  Choose Location
+                </h3>
+                <div className="flex flex-wrap gap-3"
+                >
+                  {locations.map((location) => (
+                    <button
+                      key={location}
+                      onClick={() => setSelectedLocation(location)}
+                      className={`px-4 py-2 text-sm tracking-wide transition-all duration-300 ${
+                        selectedLocation === location
+                          ? 'bg-[#4A7C59] text-white'
+                          : 'bg-transparent border border-[#1A1A1A]/20 text-[#1A1A1A] hover:border-[#4A7C59]'
+                      }`}
+                    >
+                      {location}
+                    </button>
+                  ))}
+                </div>              </div>
             </motion.div>
 
-            <motion.form
-              onSubmit={handleSubmit}
-              className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+            {/* Step 2 */}
+            
+            <motion.div
+              className="flex gap-6 items-start"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="mb-6">
-                <label className="block text-white/80 text-sm mb-2 flex items-center">
-                  <Calendar className="w-4 h-4 mr-2" />Location
-                </label>
-                <select
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-sunset-gold appearance-none cursor-pointer"
-                >
-                  {locations.map(location => (
-                    <option key={location.id} value={location.id} className="text-monkeypod-dark">
-                      {location.name}, {location.island}
-                    </option>
-                  ))}
-                </select>
+              <span className="font-display text-4xl text-[#4A7C59]">02</span>
+              <div className="flex-1">
+                <h3 className="text-[#1A1A1A] text-lg tracking-wide mb-3">
+                  Party Size
+                </h3>
+                <p className="text-[#1A1A1A]/60 text-sm">
+                  Large groups welcome (15-25 people) — contact us for special arrangements
+                </p>
               </div>
+            </motion.div>
+          </div>
 
-              <div className="mb-6">
-                <label className="block text-white/80 text-sm mb-2 flex items-center">
-                  <Clock className="w-4 h-4 mr-2" />Date
-                </label>
-                <input
-                  type="date"
-                  value={formData.date}
-                  min={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-sunset-gold"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <div>
-                  <label className="block text-white/80 text-sm mb-2 flex items-center">
-                    <Clock className="w-4 h-4 mr-2" />Time
-                  </label>
-                  <select
-                    value={formData.time}
-                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-sunset-gold appearance-none cursor-pointer"
-                  >
-                    {['11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'].map(time => (
-                      <option key={time} value={time} className="text-monkeypod-dark">{time}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-white/80 text-sm mb-2 flex items-center">
-                    <Users className="w-4 h-4 mr-2" />Party
-                  </label>
-                  <select
-                    value={formData.partySize}
-                    onChange={(e) => setFormData({ ...formData, partySize: e.target.value })}
-                    className="w-full p-4 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-sunset-gold appearance-none cursor-pointer"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(size => (
-                      <option key={size} value={size} className="text-monkeypod-dark">
-                        {size} {size === 1 ? 'Guest' : 'Guests'}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 bg-sunset-gold text-monkeypod-dark font-bold rounded-xl hover:bg-white transition-colors disabled:opacity-50"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {isSubmitting ? 'Finding your table...' : 'Find a Table'}
-              </motion.button>
-
-              <p className="text-center text-white/60 text-sm mt-6">
-                Or call{' '}
-                <a href={`tel:${selectedLocation?.phone.replace(/\D/g, '')}`} className="text-sunset-gold hover:underline">
-                  {selectedLocation?.phone}
-                </a>
-              </p>
-            </motion.form>
-          </>
-        ) : (
-          <motion.div className="text-center text-white" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-sunset-gold/20 flex items-center justify-center">
-              <svg className="w-12 h-12 text-sunset-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 className="font-display text-4xl font-bold mb-4">See you soon!</h2>
-            <p className="text-white/80 mb-8">Your table at {selectedLocation?.name} is being prepared.</p>
-            <motion.a
-              href={`https://www.opentable.com/r/monkeypod-kitchen-${formData.location}`}
+          {/* CTA Button - Amici Style */}
+          
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <a
+              href="https://www.opentable.com/r/monkeypod-kitchen-wailea-wailea"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-sunset-gold text-monkeypod-dark font-bold rounded-xl hover:bg-white transition-colors"
-              whileHover={{ scale: 1.05 }}
+              className="inline-block bg-[#4A7C59] text-white px-12 py-4 text-sm tracking-[0.2em] hover:bg-[#3D6B4A] transition-colors duration-300"
             >
-              Complete on OpenTable
-            </motion.a>
+              BOOK WITH OPENTABLE
+            </a>
           </motion.div>
-        )}
+        </motion.div>
       </div>
     </section>
   )

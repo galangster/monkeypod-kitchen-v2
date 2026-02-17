@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TreeLoader } from './components/TreeLoader'
 import { Hero } from './sections/Hero'
+import { Locations } from './sections/Locations'
+import { Food } from './sections/Food'
+import { Reservations } from './sections/Reservations'
+import { Footer } from './sections/Footer'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -33,7 +37,11 @@ export default function Home() {
       >
         <main className="bg-[#F5F0E6]">
           <Hero />
+          <Locations />
+          <Food />
+          <Reservations />
         </main>
+        <Footer />
       </motion.div>
     </>
   )

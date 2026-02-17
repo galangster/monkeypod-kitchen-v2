@@ -1,194 +1,133 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Clock, Phone, X } from 'lucide-react'
-import { locations } from '@/lib/utils'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+import Image from 'next/image'
+
+const locations = [
+  {
+    name: 'Wailea',
+    tagline: 'Oceanfront',
+    description: 'Sunset views over the Pacific',
+    image: 'https://images.unsplash.com/photo-1571896349842-68c89332b04e?w=800&h=600&fit=crop',
+    status: 'open'
+  },
+  {
+    name: 'Ko Olina',
+    tagline: 'Resort Side',
+    description: 'Relaxation by the lagoon',
+    image: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?w=800&h=600&fit=crop',
+    status: 'open'
+  },
+  {
+    name: 'Waikiki',
+    tagline: 'Coming Soon',
+    description: 'Heart of the action',
+    image: 'https://images.unsplash.com/photo-1507876466758-bc54f384809c?w=800&h=600&fit=crop',
+    status: 'coming-soon'
+  },
+  {
+    name: 'Whalers Village',
+    tagline: 'Coming Soon',
+    description: 'Kaanapali charm',
+    image: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&h=600&fit=crop',
+    status: 'coming-soon'
+  }
+]
 
 export function Locations() {
-  const [selectedLocation, setSelectedLocation] = useState<typeof locations[0] | null>(null)
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" })
 
   return (
-    <section id="locations" className="relative py-32 bg-monkeypod-cream overflow-hidden">
-      <div className="max-w-7xl mx-auto px-8">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <motion.span
-            className="inline-block text-monkeypod-light text-sm tracking-widest uppercase mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-          >
-            Our Ohana
-          </motion.span>
-
-          <motion.h2
-            className="font-display text-5xl lg:text-7xl font-bold text-monkeypod-green"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            The Places
-          </motion.h2>
-        </div>
-
-        {/* Location Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          style={{ perspective: '1000px' }}
+    <section ref={containerRef} className="py-24 md:py-32 bg-[#F5F0E6]">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Section Header */}
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
+          <span className="text-sm tracking-[0.3em] text-[#4A7C59] mb-4 block">
+            OUR LOCATIONS
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] tracking-headline mb-4">
+            Four Places,
+          </h2>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] tracking-headline">
+            One Ohana
+          </h2>
+        </motion.div>
+
+        {/* Location Cards - Amici Style */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {locations.map((location, index) => (
             <motion.div
-              key={location.id}
-              className="relative group cursor-pointer"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ 
-                y: -20,
-                rotateY: index < 2 ? 5 : -5,
-                scale: 1.03,
-                transition: { duration: 0.3 }
-              }}
-              onClick={() => setSelectedLocation(location)}
-              style={{
-                transformStyle: 'preserve-3d',
+              key={location.name}
+              className="group relative"
+              initial={{ opacity: 0, y: 60 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.15,
+                ease: [0.16, 1, 0.3, 1]
               }}
             >
-              <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:shadow-monkeypod-green/20"
-              >
+              <div className="relative aspect-[4/5] overflow-hidden bg-[#1A1A1A]">
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden"
-                >
-                  <img
-                    src={`https://images.pexels.com/photos/${
-                      index === 0 ? '258154/pexels-photo-258154.jpeg' :
-                      index === 1 ? '3293148/pexels-photo-3293148.jpeg' :
-                      index === 2 ? '1266831/pexels-photo-1266831.jpeg' :
-                      '1179156/pexels-photo-1179156.jpeg'
-                    }?auto=compress&cs=tinysrgb&w=800`}
-                    alt={location.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-monkeypod-dark/60 to-transparent" />
-                  
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <span className="text-xs uppercase tracking-wider opacity-80">{location.island}</span>
-                    <h3 className="font-display text-2xl font-bold">{location.name}</h3>
+                <Image
+                  src={location.image}
+                  alt={location.name}
+                  fill
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/80 via-[#1A1A1A]/20 to-transparent" />
+                
+                {/* Status Badge */}
+                {location.status === 'coming-soon' && (
+                  <div className="absolute top-6 right-6">
+                    <span className="bg-[#4A7C59] text-white text-xs tracking-[0.2em] px-4 py-2 rounded-full">
+                      SOON
+                    </span>
                   </div>
-                </div>
+                )}
 
                 {/* Content */}
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {location.features.map(feature => (
-                      <span 
-                        key={feature}
-                        className="px-3 py-1 bg-monkeypod-green/10 text-monkeypod-green text-xs rounded-full"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="space-y-2 text-sm text-monkeypod-dark/70">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4" />
-                      <span>{location.hours.lunch} / {location.hours.dinner}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Phone className="w-4 h-4" />
-                      <span>{location.phone}</span>
-                    </div>
-                  </div>
-
-                  <motion.button
-                    className="w-full mt-6 py-3 bg-monkeypod-green text-white font-medium rounded-lg hover:bg-monkeypod-brown transition-colors"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
                   >
-                    Book This Location
-                  </motion.button>
+                    <p className="text-[#D4A574] text-sm tracking-[0.2em] mb-2">
+                      {location.tagline.toUpperCase()}
+                    </p>
+                    <h3 className="font-display text-3xl md:text-4xl text-white tracking-headline mb-2">
+                      {location.name}
+                    </h3>
+                    <p className="text-white/70 text-sm tracking-wide">
+                      {location.description}
+                    </p>
+                  </motion.div>
+
+                  {/* Hover Arrow */}
+                  <motion.div
+                    className="absolute bottom-8 right-8"
+                    initial={{ x: -10, opacity: 0 }}
+                    whileHover={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <span className="text-white text-2xl">→</span>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
-
-      {/* Location Modal */}
-      <AnimatePresence>
-        {selectedLocation && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedLocation(null)}
-          >
-            <motion.div
-              className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={e => e.stopPropagation()}
-            >
-              <button
-                className="absolute top-4 right-4 p-2 bg-white/80 rounded-full hover:bg-white transition-colors z-10"
-                onClick={() => setSelectedLocation(null)}
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              <div className="h-64 overflow-hidden">
-                <img
-                  src={`https://images.pexels.com/photos/${
-                    selectedLocation.id === 'wailea' ? '258154' :
-                    selectedLocation.id === 'ko-olina' ? '3293148' :
-                    selectedLocation.id === 'waikiki' ? '1266831' :
-                    '1179156'
-                  }/pexels-photo-${
-                    selectedLocation.id === 'wailea' ? '258154' :
-                    selectedLocation.id === 'ko-olina' ? '3293148' :
-                    selectedLocation.id === 'waikiki' ? '1266831' :
-                    '1179156'
-                  }.jpeg?auto=compress&cs=tinysrgb&w=1200`}
-                  alt={selectedLocation.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="p-8">
-                <span className="text-monkeypod-light text-sm uppercase tracking-wider">{selectedLocation.island}</span>
-                <h2 className="font-display text-4xl font-bold text-monkeypod-green mb-4">{selectedLocation.name}</h2>
-
-                <div className="flex items-start space-x-2 text-monkeypod-dark/70 mb-6">
-                  <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <p>{selectedLocation.address}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="p-4 bg-monkeypod-cream rounded-lg">
-                    <span className="text-sm text-monkeypod-dark/60">Lunch</span>
-                    <p className="font-medium">{selectedLocation.hours.lunch}</p>
-                  </div>
-                  <div className="p-4 bg-monkeypod-cream rounded-lg">
-                    <span className="text-sm text-monkeypod-dark/60">Dinner</span>
-                    <p className="font-medium">{selectedLocation.hours.dinner}</p>
-                  </div>
-                </div>
-
-                <a
-                  href={`https://www.opentable.com/r/monkeypod-kitchen-${selectedLocation.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full py-4 bg-monkeypod-green text-white text-center font-medium rounded-lg hover:bg-monkeypod-brown transition-colors"
-                >
-                  Reserve on OpenTable
-                </a>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   )
 }

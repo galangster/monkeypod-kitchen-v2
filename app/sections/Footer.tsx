@@ -1,152 +1,94 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { Instagram, Facebook, Twitter } from 'lucide-react'
 
-const footerLinks = {
-  locations: [
-    { name: 'Wailea, Maui', href: '#locations' },
-    { name: 'Ko Olina, Oahu', href: '#locations' },
-    { name: 'Waikiki, Oahu', href: '#locations' },
-    { name: "Whaler's Village", href: '#locations' },
-  ],
-  company: [
-    { name: 'About', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Gift Cards', href: '#gift-cards' },
-    { name: 'Private Events', href: '#' },
-  ],
-  social: [
-    { name: 'Instagram', href: 'https://instagram.com/monkeypodkitchen', icon: Instagram },
-    { name: 'Facebook', href: 'https://facebook.com/mokukitchen', icon: Facebook },
-    { name: 'Twitter', href: 'https://twitter.com/PeterMerriman', icon: Twitter },
-  ],
-}
+const marqueeItems = [
+  'MAHALO',
+  'ALOHA', 
+  'SUNSETS',
+  'MAI TAIS',
+  'FARM TO TABLE',
+  'OHANA',
+  'FRESH CATCH',
+  'ISLAND TIME'
+]
 
 export function Footer() {
   return (
-    <footer className="bg-monkeypod-dark text-white">
-      {/* Newsletter */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-8 py-16">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left">
-              <h3 className="font-display text-3xl font-bold mb-2">Join Our Mailing List</h3>
-              <p className="text-white/60">Recipes, events, and Mai Tai secrets delivered to your inbox.</p>
-            </div>
-
-            <form className="flex w-full lg:w-auto gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 lg:w-80 px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-white/40 focus:outline-none focus:border-sunset-gold"
-              />
-              <motion.button
-                type="submit"
-                className="px-8 py-4 bg-sunset-gold text-monkeypod-dark font-bold rounded-xl hover:bg-white transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Join
-              </motion.button>
-            </form>
-          </div>
+    <footer className="bg-[#F5F0E6] border-t border-[#1A1A1A]/10">
+      {/* Marquee - Amici Style */}
+      <div className="py-6 border-b border-[#1A1A1A]/10 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-marquee-slow">
+          {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, index) => (
+            <span 
+              key={index} 
+              className="text-xs tracking-[0.3em] text-[#1A1A1A]/40 mx-8"
+            >
+              {item}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-6">
-              <span className="font-display text-3xl font-bold">monkeypod</span>
-            </Link>
-            <p className="text-white/60 text-sm mb-6">
-              Farm-to-table dining in the heart of Hawaii. 
-              Where the day ends and the evening begins.
+          <div className="text-center md:text-left">
+            <h3 className="font-display text-2xl text-[#1A1A1A] tracking-headline mb-4">
+              Monkeypod
+            </h3>
+            <p className="text-[#1A1A1A]/60 text-sm leading-relaxed">
+              Farm-to-table Hawaiian kitchen<br />
+              by Chef Peter Merriman
             </p>
-            <div className="flex space-x-4">
-              {footerLinks.social.map((social) => (
-                <motion.a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-sunset-gold hover:text-monkeypod-dark transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+          </div>
+
+          {/* Links */}
+          <div className="text-center">
+            <div className="space-y-3">
+              {['About', 'Locations', 'Menu', 'Private Events', 'Careers'].map((link) => (
+                <a
+                  key={link}
+                  href="#"
+                  className="block text-[#1A1A1A]/60 text-sm tracking-wide hover:text-[#4A7C59] transition-colors"
                 >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
+                  {link}
+                </a>
               ))}
             </div>
           </div>
 
-          {/* Locations */}
-          <div>
-            <h4 className="font-display text-lg font-bold mb-6">Locations</h4>
-            <ul className="space-y-3">
-              {footerLinks.locations.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className="text-white/60 hover:text-sunset-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
+          {/* Social */}
+          
+          <div className="text-center md:text-right">
+            <div className="space-y-3">
+              {['Instagram', 'Facebook', 'TikTok'].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="block text-[#1A1A1A]/60 text-sm tracking-wide hover:text-[#4A7C59] transition-colors"
+                >
+                  {social}
+                </a>
               ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-display text-lg font-bold mb-6">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className="text-white/60 hover:text-sunset-gold transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-display text-lg font-bold mb-6">Contact</h4>
-            <div className="space-y-4 text-white/60">
-              <p>
-                <span className="block text-white font-medium">General Inquiries</span>
-                info@monkeypodkitchen.com
-              </p>
-              <p>
-                <span className="block text-white font-medium">Private Events</span>
-                events@monkeypodkitchen.com
-              </p>
-              <p>
-                <span className="block text-white font-medium">Press</span>
-                press@monkeypodkitchen.com
-              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/40 text-sm">
+        
+        <div className="mt-16 pt-8 border-t border-[#1A1A1A]/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[#1A1A1A]/40 text-xs tracking-wide">
             © 2026 Monkeypod Kitchen. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <Link href="#" className="text-white/40 hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="text-white/40 hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="text-white/40 hover:text-white transition-colors">Accessibility</Link>
+          
+          <div className="flex gap-6">
+            <a href="#" className="text-[#1A1A1A]/40 text-xs hover:text-[#4A7C59] transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#" className="text-[#1A1A1A]/40 text-xs hover:text-[#4A7C59] transition-colors">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>

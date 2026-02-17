@@ -6,14 +6,18 @@
   --font-inter: 'Inter', sans-serif;
   --font-fraunces: 'Fraunces', serif;
   
-  /* Monkeypod Brand Colors */
-  --monkeypod-green: #2D5A3D;
-  --monkeypod-light: #6B8E5A;
-  --monkeypod-brown: #8B4513;
-  --monkeypod-cream: #F5F5DC;
+  /* Amici-Inspired Monkeypod Palette */
+  --monkeypod-cream: #F5F0E6;
+  --monkeypod-green: #4A7C59;
+  --monkeypod-green-dark: #3D6B4A;
+  --monkeypod-green-light: #5A9C69;
+  --monkeypod-brown: #8B5A2B;
+  --monkeypod-gold: #D4A574;
   --monkeypod-dark: #1A1A1A;
+  --monkeypod-warm-gray: #8B8680;
   
-  /* Sunset Accent Colors */
+  /* Legacy colors (for compatibility) */
+  --monkeypod-light: #6B8E5A;
   --sunset-gold: #D4A574;
   --sunset-coral: #FF6B6B;
   --sunset-deep: #1B3B6F;
@@ -25,7 +29,7 @@
   }
   
   body {
-    @apply bg-monkeypod-cream text-monkeypod-dark;
+    @apply bg-[#F5F0E6] text-[#1A1A1A];
     font-family: var(--font-inter);
   }
   
@@ -47,24 +51,28 @@
     text-wrap: balance;
   }
   
-  /* Koa wood texture */
-  .koa-texture {
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-    background-blend-mode: multiply;
+  /* Letter spacing for headlines (Amici style) */
+  .tracking-headline {
+    letter-spacing: 0.15em;
   }
-}
-
-/* Lenis smooth scroll */
-html.lenis {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+  
+  /* Marquee animation */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+  
+  .animate-marquee-slow {
+    animation: marquee 35s linear infinite;
+  }
 }
 
 /* Selection color */
@@ -88,5 +96,5 @@ html.lenis {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--monkeypod-brown);
+  background: var(--monkeypod-green-dark);
 }

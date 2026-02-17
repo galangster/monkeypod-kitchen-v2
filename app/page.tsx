@@ -3,14 +3,7 @@
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TreeLoader } from './components/TreeLoader'
-import { Navigation } from './components/Navigation'
 import { Hero } from './sections/Hero'
-import { Ritual } from './sections/Ritual'
-import { Land } from './sections/Land'
-import { DayCarousel } from './sections/DayCarousel'
-import { Locations } from './sections/Locations'
-import { Reservations } from './sections/Reservations'
-import { Footer } from './sections/Footer'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -28,7 +21,7 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isLoading && (
           <TreeLoader onComplete={() => setIsLoading(false)} />
         )}
@@ -38,16 +31,9 @@ export default function Home() {
         className={`transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         initial={false}
       >
-        <Navigation />
-        <main>
+        <main className="bg-[#F5F0E6]">
           <Hero />
-          <Ritual />
-          <Land />
-          <DayCarousel />
-          <Locations />
-          <Reservations />
         </main>
-        <Footer />
       </motion.div>
     </>
   )
